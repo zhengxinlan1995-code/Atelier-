@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atelier 教程 01 · 主页与基础设置</title>
+<link rel="stylesheet" href="../shared/ui.css">
+<style>
+  /* 主页复刻（全新安装的初始状态） */
+  .titlebar { position:absolute; left:0; top:0; right:0; height:30px; display:flex; align-items:center; gap:14px; padding:0 14px; font-size:12px; color:#bbb; background:#0a0a0a; }
+  .titlebar .win { margin-left:auto; display:flex; gap:22px; color:#888; }
+  .side { position:absolute; left:0; top:30px; bottom:0; width:52px; display:flex; flex-direction:column; align-items:center; gap:18px; padding-top:14px; background:#0a0a0a; }
+  .side i { width:18px; height:18px; border:1.6px solid #777; border-radius:5px; display:block; }
+  .side .avatar { margin-top:auto; margin-bottom:14px; width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,#c98a5a,#7a4a2a); border:none; }
+  .main { position:absolute; left:58px; top:34px; right:6px; bottom:6px; border-radius:14px; background:#050505; }
+  .tabs { position:absolute; left:50%; top:24px; transform:translateX(-50%); display:flex; gap:6px; padding:6px; background:#121212; border:1px solid var(--line); border-radius:12px; font-size:13px; }
+  .tabs span { padding:6px 12px; border-radius:8px; color:#aaa; }
+  .tabs span.cur { color:#fff; background:#1e1e1e; }
+  .hero { position:absolute; left:50%; top:150px; transform:translateX(-50%); width:620px; }
+  .hello { display:flex; align-items:center; gap:14px; font-size:30px; margin-bottom:22px; }
+  .orb { width:40px; height:40px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#fff,#8a90c8 45%,#2a2d55); }
+  .box { background:#151515; border:1px solid var(--line); border-radius:14px; padding:14px 16px; height:110px; position:relative; }
+  #prompt { font-size:14px; color:#ddd; min-height:20px; }
+  #prompt:empty::before { content:"帮我梳_"; color:#777; }
+  .tools { position:absolute; left:14px; right:14px; bottom:12px; display:flex; gap:14px; font-size:12px; color:#aaa; align-items:center; }
+  .tools .r { margin-left:auto; display:flex; gap:14px; }
+  .modes { margin:0 10px; padding:10px 14px; background:#101010; border:1px solid var(--line); border-top:none; border-radius:0 0 12px 12px; display:flex; gap:16px; font-size:12px; color:#aaa; }
+  .modes .cur { color:#fff; background:#222; padding:2px 8px; border-radius:6px; }
+  .modes .r { margin-left:auto; }
+  .cards { display:flex; gap:12px; margin-top:16px; }
+  .card { width:148px; height:150px; background:#141414; border:1px solid var(--line); border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; font-size:13px; color:#ccc; }
+  .card b { font-size:24px; font-weight:300; }
+  .empty { flex:1; height:150px; border:1px dashed #262626; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#555; font-size:12px; }
+  /* 帮助面板 */
+  .help { position:absolute; left:50%; top:110px; transform:translateX(-50%); width:760px; background:#161616; border:1px solid var(--line); border-radius:16px; padding:18px 26px; z-index:30; }
+  .help nav { display:flex; justify-content:center; gap:30px; font-size:14px; color:#999; margin-bottom:18px; }
+  .help nav .cur { color:#fff; border-bottom:2px solid #fff; padding-bottom:4px; }
+  .help .row { display:flex; justify-content:space-between; padding:9px 0; font-size:14px; border-bottom:1px solid #1f1f1f; }
+  .help .row small { display:block; color:var(--sub); font-size:11px; margin-top:3px; }
+  .help .row em { color:var(--sub); font-style:normal; font-size:12px; }
+  /* 设置面板（示意） */
+  .menu { position:absolute; left:62px; bottom:20px; width:170px; background:#161616; border:1px solid var(--line); border-radius:12px; padding:6px; z-index:30; font-size:13px; }
+  .menu div { padding:8px 10px; border-radius:8px; color:#ccc; }
+  .settings { position:absolute; left:50%; top:120px; transform:translateX(-50%); width:620px; background:#161616; border:1px solid var(--line); border-radius:16px; padding:22px 26px; z-index:30; }
+  .settings h3 { font-weight:500; margin-bottom:16px; }
+  .field { margin-bottom:14px; font-size:13px; color:#aaa; }
+  .field .in { margin-top:6px; height:34px; border:1px solid var(--line); border-radius:8px; background:#0e0e0e; padding:8px 10px; color:#ddd; font-family:monospace; }
+  .btn { display:inline-block; background:var(--accent); color:#fff; padding:7px 18px; border-radius:8px; font-size:13px; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+  <div class="titlebar"><span>Atelier 1.1</span><span id="t-help">帮助</span><span class="win">— ▢ ✕</span></div>
+  <div class="side" id="side"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><div class="avatar" id="avatar"></div></div>
+  <div class="main">
+    <div class="tabs" id="tabs"><span class="cur">⌂ 主页</span><span>▭ 项目库</span><span>▦ 画布空间</span></div>
+    <div class="hero">
+      <div class="hello"><div class="orb"></div>今天要做点什么？</div>
+      <div class="box" id="box"><div id="prompt"></div>
+        <div class="tools"><span id="plus">＋</span><span id="model">◎ GPT-5.5 ⌄</span><span id="think">关闭思考 ⌄</span>
+          <span class="r"><span>✧</span><span>🎙</span><span id="send">↑</span></span></div>
+      </div>
+      <div class="modes" id="modes"><span class="cur">对话</span><span>Harness</span><span>回读50条 ⌄</span><span class="r">Runware</span></div>
+      <div class="cards" id="cards"><div class="card" id="new"><b>＋</b>新建项目</div><div class="empty">还没有项目，新建一个开始吧</div></div>
+    </div>
+  </div>
+
+  <div class="help" id="help" hidden>
+    <nav><span>全局</span><span>画布</span><span>文件</span><span class="cur">工具</span></nav>
+    <div class="row"><div>文本<small>在画布上拖出一块区域后直接输入</small></div><em>左侧栏</em></div>
+    <div class="row"><div>绘画 / 视频<small>写提示词后 Ctrl+Enter 生成。从节点「+」拖线接入参考图</small></div><em>双击画布</em></div>
+    <div class="row"><div>连接<small>拖到目标松手。Shift 多选后，从「+」一次连出多条</small></div><em>节点「+」</em></div>
+    <div class="row"><div>画布导航<small>小地图看全局位置，点击可跳转</small></div><em>T</em></div>
+  </div>
+
+  <div class="menu" id="menu" hidden><div>个人记忆</div><div id="m-set">设置</div><div>关于</div></div>
+  <div class="settings" id="settings" hidden>
+    <h3>设置</h3>
+    <div class="field">模型服务 API Key<div class="in" id="key"></div></div>
+    <div class="field">默认对话模型<div class="in">GPT-5.5</div></div>
+    <span class="btn" id="save">保存</span>
+  </div>
+
+  <!-- 吉祥物：Claude 风橙色小机器人，戴小马耳朵和鬃毛 -->
+  <svg id="mascot" viewBox="0 0 160 170">
+    <g class="body">
+      <path d="M48 36 L42 8 L62 26 Z" fill="#a0522d"/><path d="M112 36 L118 8 L98 26 Z" fill="#a0522d"/>
+      <path d="M56 22 q24 -18 48 0 q-6 10 -24 10 q-18 0 -24 -10z" fill="#5a2e16"/>
+      <rect x="32" y="26" width="96" height="78" rx="26" fill="#d97757"/>
+      <ellipse cx="96" cy="60" rx="16" ry="12" fill="#f4e6d8" opacity=".9"/>
+      <rect x="46" y="44" width="68" height="40" rx="16" fill="#1b1410"/>
+      <rect class="eye" x="60" y="54" width="9" height="13" rx="4.5" fill="#ffd9b8"/>
+      <rect class="eye" x="91" y="54" width="9" height="13" rx="4.5" fill="#ffd9b8"/>
+      <rect class="mouth" x="74" y="72" width="12" height="3" rx="1.5" fill="#ffd9b8"/>
+      <rect x="44" y="108" width="72" height="44" rx="18" fill="#c4683f"/>
+      <path d="M44 120 q-16 4 -18 22" stroke="#c4683f" stroke-width="10" stroke-linecap="round" fill="none"/>
+      <path class="arm-r" d="M116 120 q16 4 18 22" stroke="#c4683f" stroke-width="10" stroke-linecap="round" fill="none"/>
+      <circle cx="80" cy="130" r="6" fill="#f4e6d8"/>
+    </g>
+  </svg>
+
+  <div id="cursor"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 2l7 19 2.6-7.6L20 11z" fill="#fff" stroke="#000" stroke-width="1.2"/></svg></div>
+  <div id="subtitle"></div>
+  <div id="overlay"><h2>Atelier 基础教程 · 主页与设置</h2><span class="btn">▶ 开始播放</span></div>
+</div></div>
+<div class="ctrl"><button id="btn-play">▶ 播放</button><button id="btn-voice">旁白</button><button id="btn-sfx">音效</button><div id="steps"></div></div>
+
+<script src="../shared/player.js"></script>
+<script>
+const show = (id, on) => { document.getElementById(id).hidden = !on; if (on) document.getElementById(id).classList.add('fade-in'); };
+Player.init([
+  { title:'欢迎', mood:'happy', say:'你好，我是 Atelier 的小助手。这节课带你认识主页，并完成第一次设置。',
+    act: async (a) => { a.focus(null); } },
+  { title:'顶部导航', mood:'point', say:'顶部有三个入口：主页、项目库和画布空间。项目库管理你所有的作品。',
+    act: async (a) => { await a.move('#tabs'); a.focus('#tabs'); } },
+  { title:'对话框', mood:'talk', say:'中间是对话框。直接写下你的想法，小助手会帮你规划内容。',
+    act: async (a) => { a.focus('#box'); await a.click('#prompt'); await a.type('#prompt', '帮我做一组咖啡店海报'); } },
+  { title:'模型与思考', mood:'point', say:'左下角可以切换对话模型，旁边的开关控制是否开启深度思考。',
+    act: async (a) => { a.focus('#model'); await a.click('#model'); await a.sleep(600); a.focus('#think'); await a.click('#think'); } },
+  { title:'模式', mood:'talk', say:'下面一行选择工作模式，对话适合聊想法，Harness 适合让它自动执行任务。',
+    act: async (a) => { a.focus('#modes'); await a.move('#modes'); } },
+  { title:'新建项目', mood:'point', say:'第一次使用还没有项目，点击新建项目，就能进入一张空白画布。',
+    act: async (a) => { a.focus('#new'); await a.click('#new'); a.sfx.whoosh(); } },
+  { title:'设置', mood:'talk', say:'开始创作前，先点左下角头像，打开设置，填入你的模型服务密钥，然后保存。',
+    act: async (a) => { a.focus(null); await a.click('#avatar'); show('menu', true); a.sfx.pop(); await a.sleep(400);
+      await a.click('#m-set'); show('menu', false); show('settings', true); a.sfx.whoosh();
+      await a.click('#key'); await a.type('#key', 'sk-••••••••••••', 60); await a.click('#save'); a.sfx.ding();
+      await a.sleep(500); show('settings', false); } },
+  { title:'帮助', mood:'point', say:'忘了快捷键也没关系，点击标题栏的帮助，所有操作都在这里。',
+    act: async (a) => { await a.click('#t-help'); show('help', true); a.sfx.pop(); await a.sleep(2200); show('help', false); } },
+  { title:'结束', mood:'happy', say:'好了，主页你已经熟悉了。下一课，我们一起在画布上生成第一张图。',
+    act: async (a) => { a.focus(null); } },
+]);
+document.getElementById('overlay').onclick = () => Player.play(Player.idx >= Player.scenes.length ? 0 : Player.idx);
+</script>
+</body>
+</html>

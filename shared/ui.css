@@ -1,0 +1,42 @@
+/* 复刻 Atelier 深色画布风格 */
+:root { --bg:#000; --panel:#141414; --card:#1b1b1b; --line:#2a2a2a; --text:#e8e8e8; --sub:#8a8a8a; --accent:#d97757; --hl:#f0b37e; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html,body { background:#000; color:var(--text); font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif; overflow:hidden; height:100%; }
+body { display:flex; flex-direction:column; align-items:center; justify-content:center; }
+#wrap { position:relative; overflow:hidden; border-radius:12px; }
+#stage { position:absolute; left:0; top:0; width:1280px; height:720px; transform-origin:0 0; background:var(--bg);
+  background-image:radial-gradient(#1c1c1c 1px,transparent 1px); background-size:22px 22px; }
+.ctrl { height:56px; display:flex; gap:8px; align-items:center; }
+.ctrl button { background:#1b1b1b; color:var(--text); border:1px solid var(--line); border-radius:8px; padding:6px 12px; cursor:pointer; font-size:13px; }
+.ctrl button.on { border-color:var(--accent); color:var(--accent); }
+.ctrl button.off { opacity:.4; text-decoration:line-through; }
+#steps { display:flex; gap:4px; }
+#cursor { position:absolute; left:0; top:0; width:22px; height:22px; z-index:50; pointer-events:none;
+  transition:transform 700ms cubic-bezier(.4,0,.2,1); transform:translate(1100px,600px); }
+#cursor svg { margin:-2px 0 0 -2px; transition:transform .12s; }
+#cursor.down svg { transform:scale(.8); }
+.hl { outline:2px solid var(--hl) !important; outline-offset:4px; border-radius:10px; animation:pulse 1.2s infinite; }
+@keyframes pulse { 50% { outline-color:transparent; } }
+.pressed { transform:scale(.96); transition:transform .1s; }
+#subtitle { position:absolute; left:50%; bottom:28px; transform:translateX(-50%); max-width:880px; padding:10px 20px;
+  background:rgba(20,20,20,.85); border:1px solid var(--line); border-radius:12px; font-size:18px; text-align:center; z-index:40; }
+#subtitle:empty { display:none; }
+#overlay { position:absolute; inset:0; background:rgba(0,0,0,.7); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; z-index:60; cursor:pointer; }
+#overlay[hidden] { display:none; }
+#overlay h2 { font-weight:500; }
+.fade-in { animation:fin .5s both; } @keyframes fin { from { opacity:0; transform:translateY(10px); } }
+
+/* ---------- 吉祥物：Claude 风小机器人 + 小马耳朵/鬃毛（呼应 Atelier 图标） ---------- */
+#mascot { position:absolute; left:40px; bottom:20px; width:150px; z-index:45; transition:transform .6s cubic-bezier(.3,1.6,.5,1); }
+#mascot .body { animation:bob 2.4s ease-in-out infinite; transform-origin:50% 100%; }
+@keyframes bob { 50% { transform:translateY(-6px); } }
+#mascot .eye { animation:blink 4s infinite; transform-origin:center; transform-box:fill-box; }
+@keyframes blink { 0%,94%,100% { transform:scaleY(1); } 97% { transform:scaleY(.1); } }
+#mascot .mouth { transition:d .3s; }
+#mascot[data-mood="talk"] .mouth { animation:talk .25s infinite alternate; transform-box:fill-box; transform-origin:center; }
+@keyframes talk { to { transform:scaleY(2.2); } }
+#mascot[data-mood="happy"] .body { animation:hop .5s 2; }
+@keyframes hop { 50% { transform:translateY(-22px) rotate(-4deg); } }
+#mascot[data-mood="point"] .arm-r { transform:rotate(-55deg); }
+#mascot .arm-r { transform-origin:118px 108px; transition:transform .4s; transform-box:view-box; }
+#mascot[data-mood="hide"] { transform:translateY(240px); }

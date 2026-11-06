@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "tutorials": [
+    { "id": "01-home-basics", "title": "主页与基础设置", "path": "01-home-basics/index.html", "minutes": 1.5 }
+  ]
+}
