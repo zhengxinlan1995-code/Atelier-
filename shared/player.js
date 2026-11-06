@@ -4,7 +4,15 @@
   const $ = (s, r = document) => r.querySelector(s);
   // 播放速度：所有等待、过渡、旁白都按 Player.speed 缩放
   const spd = () => (window.Player && window.Player.speed) || 1;
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms / spd()));
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  // 可暂停的计时：暂停时停表，恢复后继续；同时按倍速缩放
+  const sleep = async (ms) => {
+    let left = ms / spd();
+    while (left > 0) {
+      if (window.Player && Player.paused) { await wait(80); continue; }
+      const t = Math.min(left, 40); await wait(t); left -= t;
+    }
+  };
 
   // ---------- 音效：WebAudio 合成，无需音频文件 ----------
   let ctx;
@@ -46,10 +54,11 @@
       return new Promise((resolve) => {
         if (audio) audio.pause();
         audio = new Audio(`voice/${String(i + 1).padStart(2, '0')}.mp3`);
-        const guard = setTimeout(resolve, estimate / spd() + 6000);
-        const done = () => { clearTimeout(guard); resolve(); };
+        let over = false;
+        const done = () => { if (!over) { over = true; resolve(); } };
+        sleep(estimate + 6000).then(done); // 兜底，暂停期间不计时
         audio.playbackRate = spd(); audio.onended = done;
-        audio.onerror = () => { clearTimeout(guard); speak(text).then(resolve); };
+        audio.onerror = () => { if (!over) { over = true; speak(text).then(resolve); } };
         audio.play().catch(audio.onerror);
       });
     }
@@ -82,10 +91,18 @@
   const api = {
     sfx, sleep, $,
     // 镜头：zoom>1 推近，=1 拉回全景；dx/dy 用于构图偏移
-    async cam(sel, zoom = 1, ms = 1100, dx = 0, dy = 0) {
-      const p = sel ? camPt(el(sel)) : { x: W / 2, y: H / 2 };
-      cam.z = zoom; cam.x = W / 2 + dx - p.x * zoom; cam.y = H / 2 + dy - p.y * zoom;
-      if (zoom === 1 && !sel) { cam.x = 0; cam.y = 0; }
+    // 推近时自动限制倍率，保证目标完整入画，并居中在字幕上方的可视区
+    async cam(sel, zoom = 1, ms = 1100) {
+      if (!sel) { cam.z = 1; cam.x = 0; cam.y = 0; }
+      else {
+        const t = el(sel), r = t.getBoundingClientRect(), q = k();
+        const w = r.width / q / cam.z, h = r.height / q / cam.z, p = camPt(t);
+        const VH = H - 110; // 底部字幕占位
+        const z = Math.max(1, Math.min(zoom, (W * 0.86) / w, (VH * 0.86) / h));
+        cam.z = z; cam.x = W / 2 - p.x * z; cam.y = VH / 2 - p.y * z;
+        // 不露出舞台外的空白
+        cam.x = Math.min(0, Math.max(W - W * z, cam.x)); cam.y = Math.min(0, Math.max(H - H * z, cam.y));
+      }
       const c = $('#cam'); c.style.transitionDuration = ms / spd() + 'ms';
       c.style.transform = `translate(${cam.x}px,${cam.y}px) scale(${cam.z})`;
       if (ms > 300) sfx.whoosh();
@@ -142,7 +159,27 @@
         const b = document.createElement('button'); b.title = s.title; b.textContent = i + 1;
         b.onclick = () => Player.play(i); bar.appendChild(b);
       });
-      $('#btn-play').onclick = () => Player.play(Player.idx >= scenes.length ? 0 : Player.idx);
+      // 播放 / 暂停：未开始或已结束时从头播，播放中切换暂停
+      $('#btn-play').onclick = () => {
+        if (!Player.playing) return Player.play(Player.idx >= scenes.length ? 0 : Player.idx);
+        Player.setPaused(!Player.paused);
+      };
+      // 进度条：按段落均分，点击跳到对应段落
+      const prog = document.createElement('div'); prog.id = 'prog'; prog.innerHTML = '<i></i>';
+      prog.title = '点击跳转';
+      prog.onclick = (e) => {
+        const r = prog.getBoundingClientRect();
+        Player.play(Math.min(scenes.length - 1, Math.floor(((e.clientX - r.left) / r.width) * scenes.length)));
+      };
+      $('.ctrl').prepend(prog);
+      const tick = () => {
+        let f = 0;
+        if (audio && audio.duration && !audio.ended) f = Math.min(1, audio.currentTime / audio.duration);
+        const pct = Player.idx >= scenes.length ? 100 : ((Player.idx + f) / scenes.length) * 100;
+        prog.firstChild.style.width = pct + '%';
+        requestAnimationFrame(tick);
+      };
+      tick();
       $('#btn-voice').onclick = (e) => { Player.voiceOn = !Player.voiceOn; e.target.classList.toggle('off'); };
       $('#btn-sfx').onclick = (e) => { Player.sfxOn = !Player.sfxOn; e.target.classList.toggle('off'); };
       // 倍速按钮：点击循环切换，当前播放的旁白立即跟随
@@ -158,11 +195,19 @@
       };
       addEventListener('resize', fit); fit();
     },
+    setPaused(on) {
+      Player.paused = on;
+      document.body.classList.toggle('paused', on);
+      $('#btn-play').textContent = on ? '▶ 继续' : '❚❚ 暂停';
+      if (audio) on ? audio.pause() : audio.play().catch(() => {});
+      if ('speechSynthesis' in window) on ? speechSynthesis.pause() : speechSynthesis.resume();
+    },
     async play(from) {
       const run = ++Player.run; // 新一次播放会让旧循环自然退出
       if ('speechSynthesis' in window) speechSynthesis.cancel();
       if (audio) audio.pause();
       $('#overlay').hidden = true;
+      Player.playing = true; Player.setPaused(false);
       if (Player.reset) Player.reset(api);
       for (let i = from; i < Player.scenes.length; i++) {
         if (run !== Player.run) return;
@@ -174,7 +219,7 @@
         await sleep(300);
       }
       if (run === Player.run) {
-        Player.idx = Player.scenes.length; sfx.ding();
+        Player.idx = Player.scenes.length; Player.playing = false; $('#btn-play').textContent = '↻ 重播'; sfx.ding();
         $('#overlay').hidden = false; $('#overlay h2').textContent = '教程结束，点击重播';
       }
     },

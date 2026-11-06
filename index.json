@@ -18,6 +18,12 @@
       "title": "缓存与下载目录",
       "path": "03-storage/index.html",
       "minutes": 1.5
+    },
+    {
+      "id": "04-platform-keys",
+      "title": "平台 Key 同步",
+      "path": "04-platform-keys/index.html",
+      "minutes": 2
     }
   ]
 }
