@@ -76,22 +76,47 @@
   .hello3 { position:absolute; left:50%; top:200px; transform:translateX(-50%); font-size:32px; font-weight:500; letter-spacing:-.04em; white-space:nowrap; }
   .pop3 { position:absolute; left:58px; bottom:16px; width:200px; z-index:30; background:#1b1c1f; border:1px solid var(--edge); border-radius:12px; padding:5px; font-size:13px; box-shadow:0 18px 50px rgba(0,0,0,.5); }
   .pop3 div { padding:7px 12px; border-radius:7px; color:#c9cacf; }
-  /* 平台网页（示意，隐去余额与账户信息） */
-  .web { position:absolute; left:110px; top:60px; width:1060px; height:600px; z-index:32; border-radius:16px; overflow:hidden; background:#0f1115; border:1px solid rgba(255,255,255,.1); box-shadow:0 30px 80px rgba(0,0,0,.75); font-size:13px; }
-  .web .url { height:38px; display:flex; align-items:center; gap:10px; padding:0 16px; background:#16181d; color:#9a9ca3; border-bottom:1px solid rgba(255,255,255,.06); }
-  .web .url b { padding:4px 12px; border-radius:8px; background:#0b0c10; color:#cfd0d4; font-weight:400; }
-  .web .wb { display:flex; height:calc(100% - 38px); }
-  .web aside { width:190px; padding:18px 10px; background:#13151a; color:#bfc1c7; }
-  .web aside div { padding:9px 12px; border-radius:8px; } .web aside div.cur { background:rgba(99,102,241,.2); color:#fff; }
-  .web section { flex:1; padding:26px 30px; }
-  .web h3 { font-size:18px; margin-bottom:6px; } .web .sub { color:#8b8d94; font-size:12px; margin-bottom:20px; }
-  .card4 { border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:18px 20px; background:#151820; margin-bottom:14px; }
-  .card4 .lb { color:#9a9ca3; font-size:12px; margin-bottom:8px; }
-  .mask { display:flex; align-items:center; gap:10px; height:38px; padding:0 14px; border-radius:10px; background:#0b0c10; color:#e4e4e7; font-family:Consolas,monospace; letter-spacing:.08em; }
-  .mask .hide { margin-left:auto; font-family:inherit; letter-spacing:0; font-size:11px; color:#71717a; }
-  .wbtn { display:inline-flex; align-items:center; height:34px; padding:0 16px; border-radius:9px; background:#6366f1; color:#fff; font-size:13px; margin-top:12px; }
-  .wbtn.copy { background:#2a2d36; margin-left:8px; }
-  .redact { display:inline-block; padding:2px 8px; border-radius:6px; background:#2a2d36; color:#71717a; font-size:11px; }
+  /* Comfly 个人中心 · 安全设置（白底蓝色，简化） */
+  .web { position:absolute; left:90px; top:50px; width:1100px; height:610px; z-index:32; border-radius:14px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.75); font-size:13px; font-family:"Microsoft YaHei",sans-serif; }
+  .cf { background:#f6f8fb; color:#1f2937; height:100%; }
+  .cf .top { height:46px; display:flex; align-items:center; gap:22px; padding:0 18px; background:#fff; border-bottom:1px solid #e5e7eb; color:#374151; }
+  .cf .top b { color:#1d4ed8; font-size:15px; } .cf .top .av { margin-left:auto; padding:4px 12px; border-radius:14px; background:#eef2ff; color:#1d4ed8; font-size:12px; }
+  .cf .bd { display:flex; gap:16px; padding:16px; }
+  .cf .nav1 { width:130px; background:#fff; border-radius:12px; padding:8px; box-shadow:0 2px 10px rgba(0,0,0,.05); }
+  .cf .nav1 div { padding:8px 10px; border-radius:8px; color:#374151; } .cf .nav1 .cur { background:#2563eb; color:#fff; }
+  .cf .mid { flex:1; }
+  .cf .head { display:flex; align-items:center; gap:12px; }
+  .cf .head .ic { width:40px; height:40px; border-radius:10px; background:#3b82f6; color:#fff; display:grid; place-items:center; font-weight:700; }
+  .cf .chip { display:inline-block; padding:2px 8px; margin-right:6px; border:1px solid #e5e7eb; border-radius:10px; font-size:11px; color:#6b7280; background:#fff; }
+  .cf .bal { display:flex; gap:10px; margin:12px 0; } .cf .bal div { flex:1; padding:10px 14px; border:1px solid #e5e7eb; border-radius:10px; background:#fff; font-size:11px; color:#6b7280; }
+  .cf .bal b { display:block; color:#1d4ed8; font-size:14px; margin-top:4px; }
+  .cf .row2 { display:flex; gap:14px; }
+  .cf .nav2 { width:150px; } .cf .nav2 div { padding:9px 12px; border-radius:9px; color:#4b5563; } .cf .nav2 .cur { background:#eaf2ff; color:#1d4ed8; border:1px solid #bfdbfe; }
+  .cf .pane { flex:1; background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px 18px; }
+  .cf .pane h4 { color:#1d4ed8; font-size:15px; } .cf .pane .d { color:#6b7280; font-size:11px; margin:2px 0 12px; }
+  .cf .it { display:flex; align-items:center; gap:12px; padding:12px 14px; margin-bottom:8px; border:1px solid #eef0f3; border-radius:10px; }
+  .cf .it i { width:30px; height:30px; border-radius:8px; display:grid; place-items:center; font-style:normal; }
+  .cf .it b { color:#1d4ed8; font-size:13px; } .cf .it small { display:block; color:#6b7280; font-size:11px; }
+  .cf .it .r { margin-left:auto; padding:4px 10px; border-radius:6px; font-size:11px; border:1px solid #d1d5db; color:#374151; }
+  .cf .it .r.blue { background:#2563eb; color:#fff; border-color:#2563eb; }
+  .cf .tokv { margin-top:6px; }
+  /* SoonStudio 账户 · API 密钥（米色黄色，简化） */
+  .sn { background:#f2efe7; color:#1d1c19; height:100%; font-family:Outfit,"Microsoft YaHei",sans-serif; }
+  .sn .top { height:52px; display:flex; align-items:center; padding:0 22px; font-size:18px; font-weight:700; }
+  .sn .top i { width:28px; height:28px; border-radius:50%; background:#facc15; display:inline-grid; place-items:center; font-style:normal; margin-right:8px; font-size:14px; }
+  .sn .bd { display:flex; margin:0 60px; height:calc(100% - 70px); background:#fbfaf6; border-radius:18px; overflow:hidden; }
+  .sn .nav1 { width:170px; padding:16px 12px; background:#f6f3ea; }
+  .sn .nav1 .me { display:flex; align-items:center; gap:8px; margin-bottom:12px; font-weight:600; } .sn .nav1 .me span { width:32px; height:32px; border-radius:50%; background:#e5c07b; }
+  .sn .nav1 div.n { padding:8px 12px; margin-bottom:6px; border:1px solid #e8e3d6; border-radius:10px; background:#fff; font-size:12px; }
+  .sn .nav1 div.cur { background:#fde047; border-color:#fde047; font-weight:600; }
+  .sn .pane { flex:1; padding:20px 26px; }
+  .sn h4 { font-family:Georgia,serif; font-size:24px; } .sn .d { color:#6b6658; font-size:12px; margin:2px 0 14px; }
+  .sn .box { border:1px solid #e8e3d6; border-radius:12px; background:#fff; padding:14px 16px; margin-bottom:12px; font-size:12px; color:#4a463d; line-height:1.7; }
+  .sn .box b { font-size:13px; color:#1d1c19; } .sn .box .t { display:flex; align-items:center; justify-content:space-between; }
+  .sn .pill { padding:5px 12px; border-radius:16px; background:#e8e3d6; font-size:12px; margin-left:6px; }
+  .sn .pill.y { background:#fde047; font-weight:600; }
+  .sn code { font-family:Consolas,monospace; }
+  .mask { font-family:Consolas,monospace; letter-spacing:.06em; padding:2px 8px; border-radius:6px; background:rgba(0,0,0,.06); }
   /* 全局设置 · 画布功能 · 平台令牌 */
   .gs4 { position:absolute; left:150px; top:70px; width:980px; height:600px; z-index:32; display:flex; background:#1c1c1e; border:1px solid rgba(255,255,255,.08); border-radius:22px; box-shadow:0 24px 80px rgba(0,0,0,.6); overflow:hidden; font-size:13px; }
   .gs4 aside { width:170px; padding:22px 10px; color:#d4d4d8; } .gs4 aside p { color:#8b8d94; font-size:12px; padding:0 10px 12px; }
@@ -168,17 +193,39 @@
   <div class="pop3" id="profile" hidden><div>个人记忆 · 知序</div><div id="p-set">设置</div><div>检查更新</div></div>
   <div class="shade" id="shade" hidden></div>
 
-  <!-- 平台网页示意：余额、账户名、真实密钥全部隐去 -->
+  <!-- 平台网页：照 Comfly / Soon 真实页面简化；余额、账户名、密钥全部隐去 -->
   <div class="web" id="web" hidden>
-    <div class="url">🔒 <b id="w-url">comfly.chat / 个人设置</b></div>
-    <div class="wb">
-      <aside><div>控制台</div><div>令牌管理</div><div>钱包 <span class="redact">已隐藏</span></div><div class="cur" id="w-nav">个人设置</div></aside>
-      <section>
-        <h3 id="w-title">个人设置 · 安全设置</h3><div class="sub" id="w-sub">在这里生成系统访问令牌，用于让 Atelier 拉取你的分组令牌。</div>
-        <div class="card4" id="w-uid"><div class="lb" id="w-uid-lb">用户 ID</div><div class="mask">●●●●●<span class="hide">示例已隐藏</span></div></div>
-        <div class="card4" id="w-tok"><div class="lb" id="w-tok-lb">系统访问令牌</div><div class="mask" id="w-tok-v">尚未生成</div>
-          <span class="wbtn" id="w-gen">生成令牌</span><span class="wbtn copy" id="w-copy">复制</span></div>
-      </section>
+    <div class="cf" id="cf">
+      <div class="top"><b>◉ comfly</b><span>首页</span><span>ComflyStudio</span><span>聊天</span><span>模型价格</span><span class="av">●●●●●</span></div>
+      <div class="bd">
+        <div class="nav1"><div class="cur">个人中心</div><div>工作台</div><div>令牌</div><div>充值</div><div>操作日志</div><div>绘图记录</div><div>API 文档</div></div>
+        <div class="mid">
+          <div class="head"><span class="ic">ZH</span><div><b>●●●●@●●●●.com</b><br><span class="chip">普通用户</span><span class="chip" id="w-uid">ID <span class="mask">●●●●●</span></span></div></div>
+          <div class="bal"><div>当前余额<b>已隐藏</b></div><div>账户身份<b>普通用户</b></div><div>默认分组<b>●●●●</b></div></div>
+          <div class="row2">
+            <div class="nav2"><div>通知设置</div><div>订单记录</div><div>账户绑定</div><div class="cur" id="w-sec">安全设置</div></div>
+            <div class="pane"><h4>安全设置</h4><div class="d">管理访问令牌、密码及账户安全选项</div>
+              <div class="it"><i style="background:#dcfce7">🛡</i><div><b>两步验证</b><small>使用认证器应用为账户增加一层保护</small></div><span class="r blue">启用</span></div>
+              <div class="it"><i style="background:#ccfbf1">⚙</i><div><b>OSS 设置</b><small>中国大陆线路</small></div><span class="r">配置 ›</span></div>
+              <div class="it" id="w-tok"><i style="background:#dbeafe">🔑</i><div><b>系统API访问令牌</b><small>用于API调用的身份验证令牌，请妥善保管</small><div class="tokv"><span class="mask" id="w-tok-v">尚未生成</span></div></div><span class="r blue" id="w-gen">生成令牌</span></div>
+              <div class="it"><i style="background:#ffedd5">🔒</i><div><b>密码管理</b><small>定期更改密码可以提高账户安全性</small></div><span class="r">重置密码</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sn" id="sn" hidden>
+      <div class="top"><i>S</i>SoonStudio</div>
+      <div class="bd">
+        <div class="nav1"><div class="me"><span></span>●●●●</div><div class="n">积分 已隐藏</div><div class="n">账户</div><div class="n cur">API 密钥</div><div class="n">账单</div><div class="n">Plan</div><div class="n">日志</div><div class="n">关于</div></div>
+        <div class="pane"><h4>API 密钥</h4><div class="d">偏好与账户</div>
+          <div class="box"><div class="t"><b>🛡 只读查询令牌</b><span><span class="pill">重置令牌</span><span class="pill">撤销</span></span></div>查询本人余额、API Key 配额与用量、公开模型目录。</div>
+          <div class="box" id="s-ext"><b>🛡 外部接入</b><div class="t" style="margin-top:8px"><b>集成令牌</b><span><span class="pill y" id="s-gen">重置集成令牌</span><span class="pill">撤销集成令牌</span></span></div>
+            授权外部应用创建和获取当前公开分组的密钥，有效期 90 天。<br>
+            集成令牌：<span class="mask" id="s-tok">尚未生成</span><br>
+            <span id="s-uid">账户 ID：<code class="mask">●●●●●●●●●●</code> <span class="pill" id="s-copy">⧉ 复制账户 ID</span></span></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -240,17 +287,7 @@
 const $ = (s) => document.querySelector(s);
 const show = (id, on) => { const e = document.getElementById(id); e.hidden = !on; if (on) { e.classList.remove('fade-in'); void e.offsetWidth; e.classList.add('fade-in'); } };
 const MASK = 'sk-••••••••••••••••••••';
-// 切换示意网页的平台：Comfly / T8 用"系统访问令牌"，Soon 用"外部接入·集成令牌"
-const site = (name) => {
-  const soon = name === 'soon';
-  $('#w-url').textContent = soon ? 'soonstudio.ai / 个人资料 / 外部接入' : (name === 't8' ? 't8star.cn / 个人设置' : 'comfly.chat / 个人设置');
-  $('#w-nav').textContent = soon ? '个人资料' : '个人设置';
-  $('#w-title').textContent = soon ? '个人资料 · 外部接入' : '个人设置 · 安全设置';
-  $('#w-sub').textContent = soon ? '复制账号 ID，再生成集成令牌（有效期 90 天）。' : '在这里生成系统访问令牌，用于让 Atelier 拉取你的分组令牌。';
-  $('#w-uid-lb').textContent = soon ? '账号 ID' : '用户 ID';
-  $('#w-tok-lb').textContent = soon ? '集成令牌' : '系统访问令牌';
-  $('#w-tok-v').textContent = '尚未生成';
-};
+const site = (name) => { $('#cf').hidden = name === 'soon'; $('#sn').hidden = name !== 'soon'; $('#w-tok-v').textContent = '尚未生成'; $('#s-tok').textContent = '尚未生成'; };
 const reset = (a) => {
   ['profile','shade','web','settings','node','gdrop'].forEach((id) => show(id, false));
   ['#p-uid','#p-tok','#b-ok','#glist'].forEach((s) => ($(s).textContent = ''));
@@ -261,18 +298,19 @@ const reset = (a) => {
 Player.init([
   { title:'欢迎', mood:'happy', say:'嗨，第四课来啦。这节课教你同步平台的分组 Key，设置一次，画布里每个节点都能直接选分组。',
     act: async (a) => { await a.cam(null, 1, 10); await a.walk(560, 330, 1200); a.say('第四课！'); await a.hop([1060, 420]); } },
-  { title:'第一步 平台网页', mood:'point', say:'先打开你用的平台网页。以 Comfly 为例，进入个人设置，找到系统访问令牌，点生成，然后复制。T8 的位置和 Comfly 一样。',
+  { title:'第一步 Comfly', mood:'point', say:'先打开平台网页。以 Comfly 为例，进入个人中心，点安全设置，找到系统 API 访问令牌，点生成令牌并复制。头像旁边的 ID 就是用户 ID。T8 的位置和 Comfly 一样。',
     act: async (a) => {
       show('shade', true); site('comfly'); show('web', true); a.sfx.whoosh();
-      await a.cam('#w-tok', 1.6, 1000); await a.hop([150, 330]);
-      await a.click('#w-gen'); $('#w-tok-v').textContent = MASK; a.sfx.ding();
-      await a.click('#w-copy'); a.say('已复制');
+      await a.cam('#w-uid', 2.2, 1000); a.focus('#w-uid'); await a.hop([150, 300]); await a.sleep(700); a.focus(null);
+      await a.click('#w-sec'); await a.cam('#w-tok', 1.8, 900); a.focus('#w-tok');
+      await a.click('#w-gen'); $('#w-tok-v').textContent = MASK; a.sfx.ding(); a.say('已复制');
     } },
-  { title:'Soon 平台', mood:'talk', say:'如果用的是 Soon，就进个人资料里的外部接入，复制账号 ID，再生成集成令牌，集成令牌有效期是九十天。',
+  { title:'Soon 平台', mood:'talk', say:'如果用的是 Soon，就进账户里的 API 密钥，在外部接入里点重置集成令牌，复制令牌，再复制下面的账户 ID。集成令牌有效期是九十天。',
     act: async (a) => {
-      await a.cam(null, 1, 700); site('soon'); a.sfx.pop(); await a.cam('#w-uid', 1.5, 900);
-      await a.move('#w-uid', 500); a.focus('#w-uid'); await a.sleep(600); a.focus(null);
-      await a.cam('#w-tok', 1.5, 700); await a.click('#w-gen'); $('#w-tok-v').textContent = MASK; a.sfx.ding();
+      a.focus(null); await a.cam(null, 1, 700); site('soon'); a.sfx.pop();
+      await a.cam('#s-ext', 1.6, 900); a.focus('#s-ext'); await a.hop([150, 300]);
+      await a.click('#s-gen'); $('#s-tok').textContent = MASK; a.sfx.ding();
+      await a.click('#s-copy'); a.say('复制好啦'); a.focus(null);
     } },
   { title:'隐私提醒', mood:'think', say:'注意，令牌和余额都属于你的账户信息，不要截图发给别人。教程里的内容也都做了隐藏处理。',
     act: async (a) => { a.focus('.mask'); a.say('别外传'); await a.sleep(1800); a.focus(null); } },
