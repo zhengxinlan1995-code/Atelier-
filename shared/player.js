@@ -34,10 +34,24 @@
       || vs.find((v) => /zh[-_]CN/i.test(v.lang)) || vs.find((v) => /^zh/i.test(v.lang)) || null;
   }
   if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
-  function speak(text) {
+  let audio = null;
+  function speak(text, i) {
     $('#subtitle').textContent = text;
     const estimate = text.length * 230 + 400; // 无语音时按字数估算时长
-    if (!Player.voiceOn || !('speechSynthesis' in window)) return sleep(estimate);
+    if (!Player.voiceOn) return sleep(estimate);
+    // 优先播放预生成的自然人声（voice/NN.mp3），失败再退回系统 TTS
+    if (i != null) {
+      return new Promise((resolve) => {
+        if (audio) audio.pause();
+        audio = new Audio(`voice/${String(i + 1).padStart(2, '0')}.mp3`);
+        const guard = setTimeout(resolve, estimate + 6000);
+        const done = () => { clearTimeout(guard); resolve(); };
+        audio.onended = done;
+        audio.onerror = () => { clearTimeout(guard); speak(text).then(resolve); };
+        audio.play().catch(audio.onerror);
+      });
+    }
+    if (!('speechSynthesis' in window)) return sleep(estimate);
     return new Promise((resolve) => {
       const u = new SpeechSynthesisUtterance(text);
       u.lang = 'zh-CN'; u.rate = 1.05; u.pitch = 1.15; if (voice) u.voice = voice;
@@ -139,6 +153,7 @@
     async play(from) {
       const run = ++Player.run; // 新一次播放会让旧循环自然退出
       if ('speechSynthesis' in window) speechSynthesis.cancel();
+      if (audio) audio.pause();
       $('#overlay').hidden = true;
       if (Player.reset) Player.reset(api);
       for (let i = from; i < Player.scenes.length; i++) {
@@ -147,7 +162,7 @@
         document.querySelectorAll('#steps button').forEach((b, j) => b.classList.toggle('on', j === i));
         const s = Player.scenes[i];
         api.mood(s.mood);
-        await Promise.all([speak(s.say), s.act ? s.act(api) : null]);
+        await Promise.all([speak(s.say, i), s.act ? s.act(api) : null]);
         await sleep(300);
       }
       if (run === Player.run) {
