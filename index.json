@@ -12,6 +12,12 @@
       "title": "项目库与 OSS 图床",
       "path": "02-projects-oss/index.html",
       "minutes": 2
+    },
+    {
+      "id": "03-storage",
+      "title": "缓存与下载目录",
+      "path": "03-storage/index.html",
+      "minutes": 1.5
     }
   ]
 }
