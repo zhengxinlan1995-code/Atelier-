@@ -6,133 +6,312 @@
 <title>Atelier 教程 01 · 主页与基础设置</title>
 <link rel="stylesheet" href="../shared/ui.css">
 <style>
-  /* 主页复刻（全新安装的初始状态） */
-  .titlebar { position:absolute; left:0; top:0; right:0; height:30px; display:flex; align-items:center; gap:14px; padding:0 14px; font-size:12px; color:#bbb; background:#0a0a0a; }
-  .titlebar .win { margin-left:auto; display:flex; gap:22px; color:#888; }
-  .side { position:absolute; left:0; top:30px; bottom:0; width:52px; display:flex; flex-direction:column; align-items:center; gap:18px; padding-top:14px; background:#0a0a0a; }
-  .side i { width:18px; height:18px; border:1.6px solid #777; border-radius:5px; display:block; }
-  .side .avatar { margin-top:auto; margin-bottom:14px; width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,#c98a5a,#7a4a2a); border:none; }
-  .main { position:absolute; left:58px; top:34px; right:6px; bottom:6px; border-radius:14px; background:#050505; }
-  .tabs { position:absolute; left:50%; top:24px; transform:translateX(-50%); display:flex; gap:6px; padding:6px; background:#121212; border:1px solid var(--line); border-radius:12px; font-size:13px; }
-  .tabs span { padding:6px 12px; border-radius:8px; color:#aaa; }
-  .tabs span.cur { color:#fff; background:#1e1e1e; }
-  .hero { position:absolute; left:50%; top:150px; transform:translateX(-50%); width:620px; }
-  .hello { display:flex; align-items:center; gap:14px; font-size:30px; margin-bottom:22px; }
-  .orb { width:40px; height:40px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#fff,#8a90c8 45%,#2a2d55); }
-  .box { background:#151515; border:1px solid var(--line); border-radius:14px; padding:14px 16px; height:110px; position:relative; }
-  #prompt { font-size:14px; color:#ddd; min-height:20px; }
-  #prompt:empty::before { content:"帮我梳_"; color:#777; }
-  .tools { position:absolute; left:14px; right:14px; bottom:12px; display:flex; gap:14px; font-size:12px; color:#aaa; align-items:center; }
-  .tools .r { margin-left:auto; display:flex; gap:14px; }
-  .modes { margin:0 10px; padding:10px 14px; background:#101010; border:1px solid var(--line); border-top:none; border-radius:0 0 12px 12px; display:flex; gap:16px; font-size:12px; color:#aaa; }
-  .modes .cur { color:#fff; background:#222; padding:2px 8px; border-radius:6px; }
-  .modes .r { margin-left:auto; }
-  .cards { display:flex; gap:12px; margin-top:16px; }
-  .card { width:148px; height:150px; background:#141414; border:1px solid var(--line); border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; font-size:13px; color:#ccc; }
-  .card b { font-size:24px; font-weight:300; }
-  .empty { flex:1; height:150px; border:1px dashed #262626; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#555; font-size:12px; }
-  /* 帮助面板 */
-  .help { position:absolute; left:50%; top:110px; transform:translateX(-50%); width:760px; background:#161616; border:1px solid var(--line); border-radius:16px; padding:18px 26px; z-index:30; }
-  .help nav { display:flex; justify-content:center; gap:30px; font-size:14px; color:#999; margin-bottom:18px; }
-  .help nav .cur { color:#fff; border-bottom:2px solid #fff; padding-bottom:4px; }
-  .help .row { display:flex; justify-content:space-between; padding:9px 0; font-size:14px; border-bottom:1px solid #1f1f1f; }
-  .help .row small { display:block; color:var(--sub); font-size:11px; margin-top:3px; }
-  .help .row em { color:var(--sub); font-style:normal; font-size:12px; }
-  /* 设置面板（示意） */
-  .menu { position:absolute; left:62px; bottom:20px; width:170px; background:#161616; border:1px solid var(--line); border-radius:12px; padding:6px; z-index:30; font-size:13px; }
-  .menu div { padding:8px 10px; border-radius:8px; color:#ccc; }
-  .settings { position:absolute; left:50%; top:120px; transform:translateX(-50%); width:620px; background:#161616; border:1px solid var(--line); border-radius:16px; padding:22px 26px; z-index:30; }
-  .settings h3 { font-weight:500; margin-bottom:16px; }
-  .field { margin-bottom:14px; font-size:13px; color:#aaa; }
-  .field .in { margin-top:6px; height:34px; border:1px solid var(--line); border-radius:8px; background:#0e0e0e; padding:8px 10px; color:#ddd; font-family:monospace; }
-  .btn { display:inline-block; background:var(--accent); color:#fff; padding:7px 18px; border-radius:8px; font-size:13px; }
-  [hidden] { display:none !important; }
+  /* 主页复刻：全新安装的初始状态（对照 StudioHomePage / studioHomeLanding.css） */
+  .titlebar { position:absolute; left:0; top:0; right:0; height:30px; display:flex; align-items:center; gap:14px; padding:0 12px; font-size:12px; color:#c8c8cc; background:#0b0b0c; }
+  .titlebar .i { width:14px; height:14px; color:#888; }
+  .titlebar .win { margin-left:auto; display:flex; gap:20px; color:#8a8a8f; align-items:center; }
+  .titlebar .win .i { width:13px; height:13px; }
+  .side { position:absolute; left:0; top:30px; bottom:0; width:52px; display:flex; flex-direction:column; align-items:center; gap:6px; padding-top:10px; background:#0b0b0c; }
+  .side .logo { width:28px; height:28px; border-radius:8px; margin-bottom:8px; background:linear-gradient(135deg,#b4693e,#6d3a1d); display:grid; place-items:center; font-size:15px; }
+  .side .ic { width:34px; height:34px; display:grid; place-items:center; border-radius:8px; color:#8d8d93; }
+  .side .ic.cur { color:#fff; background:rgba(255,255,255,.06); }
+  .side .avatar { margin-top:auto; margin-bottom:14px; width:30px; height:30px; border-radius:50%; background:radial-gradient(circle at 40% 35%,#f1c88a,#c6853f 60%,#6e3d18); box-shadow:0 0 0 1px rgba(255,255,255,.1); }
+  .main { position:absolute; left:58px; top:34px; right:6px; bottom:6px; border-radius:14px; background:#050506; overflow:hidden;
+    background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.2px); background-size:20px 20px; }
+  .main::before { content:''; position:absolute; left:50%; top:40px; width:860px; height:540px; transform:translateX(-50%);
+    background:radial-gradient(ellipse,rgba(119,131,215,.10),transparent 68%); }
+  .nav { position:absolute; left:50%; top:22px; transform:translateX(-50%); display:flex; gap:2px; padding:5px; background:#111214; border:1px solid var(--edge); border-radius:12px; font-size:13px; }
+  .nav span { display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:8px; color:#9a9ca3; }
+  .nav span .i { width:14px; height:14px; }
+  .nav span.cur { color:#fff; background:rgba(255,255,255,.06); }
+  .hero { position:absolute; left:50%; top:132px; transform:translateX(-50%); width:680px; }
+  .hello { display:flex; align-items:center; gap:16px; font-size:32px; letter-spacing:-.04em; font-weight:500; }
+  .orb { width:42px; height:42px; border-radius:50%; position:relative; overflow:hidden; box-shadow:0 0 0 1px rgba(202,216,255,.22),0 0 24px rgba(125,146,238,.16); animation:float 6s ease-in-out infinite; }
+  .orb::before { content:''; position:absolute; inset:-35%; background:conic-gradient(from 45deg,#6477c9,#dceaff 18%,#a5baf2 34%,#626bbc 51%,#c7bce9 70%,#e6f3ff 86%,#6477c9); animation:spin 16s linear infinite; }
+  .orb::after { content:''; position:absolute; inset:0; border-radius:50%; background:radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.9),transparent 44%),radial-gradient(ellipse at 72% 85%,rgba(24,32,93,.65),transparent 65%); }
+  @keyframes spin { to { transform:rotate(360deg); } } @keyframes float { 50% { transform:translateY(-3px); } }
+  .box { margin-top:28px; position:relative; z-index:2; height:118px; padding:16px 18px 12px; border:1px solid var(--edge); border-radius:16px;
+    background:linear-gradient(135deg,var(--hi),transparent 65%),var(--surface); box-shadow:0 1px 0 var(--hi) inset,0 12px 36px -16px rgba(0,0,0,.4); }
+  .box.focus { border-color:var(--edge-h); }
+  #prompt { font-size:14px; color:#e6e6e8; min-height:20px; }
+  #prompt:empty::before { content:"帮我梳理一下今天的创作计划…"; color:#6b6d74; }
+  #prompt.typing::after { content:'|'; color:#9baee7; animation:pulse 1s infinite; }
+  .bar { position:absolute; left:12px; right:12px; bottom:10px; display:flex; gap:4px; font-size:12px; color:#a3a5ac; align-items:center; }
+  .bar > span, .bar .r > span { display:flex; align-items:center; gap:4px; padding:4px 7px; border-radius:6px; }
+  .bar .i { width:14px; height:14px; }
+  .bar .r { margin-left:auto; display:flex; gap:2px; }
+  #send { width:26px; height:26px; justify-content:center; border-radius:50% !important; background:#2a2b30; color:#777; padding:0 !important; }
+  #send.ready { background:#ececf0; color:#111; }
+  .dock { margin:-18px 12px 0; padding:24px 14px 9px; background:var(--soft); border:1px solid var(--edge); border-radius:0 0 14px 14px; display:flex; gap:4px; font-size:12px; color:#9a9ca3; align-items:center; }
+  .dock span { padding:5px 9px; border-radius:6px; }
+  .dock .cur { color:#fff; background:rgba(255,255,255,.06); }
+  .dock .r { margin-left:auto; }
+  .recent { display:flex; gap:12px; margin-top:36px; }
+  .card-new { width:160px; aspect-ratio:.95; border:1px solid var(--edge); border-radius:16px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; font-size:13px; color:#cfd0d4; }
+  .card-new .plus { padding:10px; border:1px solid var(--edge); border-radius:50%; background:var(--hi); display:grid; transition:transform .3s; }
+  .card-new.pressed .plus, .card-new.hl .plus { transform:rotate(90deg); }
+  .allp { margin-top:18px; text-align:right; font-size:12px; color:#8b8d94; }
+  /* 下拉菜单 */
+  .pop { position:absolute; z-index:30; background:#1b1c1f; border:1px solid var(--edge); border-radius:12px; padding:5px; font-size:13px; box-shadow:0 18px 50px rgba(0,0,0,.5); }
+  .pop div { padding:7px 12px; border-radius:7px; color:#c9cacf; display:flex; justify-content:space-between; gap:24px; }
+  .pop div small { color:#6f7178; }
+  .pop .cur { background:rgba(255,255,255,.06); color:#fff; }
+  #models { left:250px; top:262px; width:220px; }
+  #effort { left:340px; top:262px; width:170px; }
+  #profile { left:58px; bottom:16px; width:200px; }
+  /* 设置弹窗 */
+  .dlg { position:absolute; left:50%; top:96px; transform:translateX(-50%); width:640px; z-index:32; background:#1a1a1a; border:1px solid rgba(255,255,255,.08); border-radius:22px; box-shadow:0 24px 80px rgba(0,0,0,.6); }
+  .dlg header { display:flex; justify-content:center; gap:30px; padding:14px 0 10px; font-size:13px; color:#71717a; border-bottom:1px solid rgba(255,255,255,.06); }
+  .dlg header .cur { color:#f4f4f5; box-shadow:0 2px 0 -0px #fff; padding-bottom:6px; }
+  .dlg .body { padding:20px 28px 22px; }
+  .field { margin-bottom:16px; font-size:13px; color:#d4d4d8; }
+  .field small { display:block; color:#71717a; font-size:11px; margin-top:2px; }
+  .field .in { margin-top:8px; height:36px; border:1px solid rgba(255,255,255,.08); border-radius:9px; background:#111; padding:9px 12px; color:#ddd; font-family:Consolas,monospace; font-size:13px; }
+  .field .in.on { border-color:#9baee7; }
+  .toggle-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; font-size:13px; color:#d4d4d8; border-top:1px solid rgba(255,255,255,.05); }
+  .sw { width:34px; height:20px; border-radius:10px; background:#3f3f46; position:relative; transition:.25s; }
+  .sw::after { content:''; position:absolute; left:3px; top:3px; width:14px; height:14px; border-radius:50%; background:#fff; transition:.25s; }
+  .sw.on { background:#7f93e0; } .sw.on::after { left:17px; }
+  .btn { display:inline-block; background:#ececf0; color:#111; padding:7px 20px; border-radius:9px; font-size:13px; font-weight:600; margin-top:6px; }
+  .btn.ok { background:#4ade80; }
+  /* 帮助面板（与 CanvasHelpPanel 一致） */
+  .help { width:820px; top:84px; }
+  .help .cols { display:grid; grid-template-columns:1fr 1fr; padding:16px 28px; }
+  .help .cols > div + div { border-left:1px solid rgba(255,255,255,.06); padding-left:18px; }
+  .help .cols > div:first-child { padding-right:18px; }
+  .help .row { padding:6px 0; font-size:13px; color:#d4d4d8; display:flex; flex-wrap:wrap; justify-content:space-between; }
+  .help .row em { font-style:normal; color:#71717a; }
+  .help .row small { width:100%; color:#71717a; font-size:11px; margin-top:2px; }
+  .help footer { border-top:1px solid rgba(255,255,255,.06); padding:12px; text-align:center; font-size:12px; font-weight:700; color:#fff; }
+  .shade { position:absolute; inset:0; background:rgba(0,0,0,.35); z-index:29; }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <!-- lucide 图标（与应用侧栏一致） -->
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-brush" viewBox="0 0 24 24"><path d="m14.6 2.6 6.8 6.8-9 9-6.8-6.8z"/><path d="M5.6 11.6 3 21l9.4-2.6"/></symbol>
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.4 3.6a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+    <symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7M12 19V5"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M12 8l1.5 2.5L16 12l-2.5 1.5L12 16l-1.5-2.5L8 12l2.5-1.5z"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+    <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/></symbol>
+    <symbol id="i-min" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-max" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="1"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  </defs>
+</svg>
+
 <div id="wrap"><div id="stage">
-  <div class="titlebar"><span>Atelier 1.1</span><span id="t-help">帮助</span><span class="win">— ▢ ✕</span></div>
-  <div class="side" id="side"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><div class="avatar" id="avatar"></div></div>
+ <div id="cam">
+  <div class="titlebar"><svg class="i"><use href="#i-panel"/></svg><span>Atelier 1.1</span><span id="t-help">帮助</span>
+    <span class="win"><svg class="i"><use href="#i-min"/></svg><svg class="i"><use href="#i-max"/></svg><svg class="i"><use href="#i-x"/></svg></span></div>
+  <div class="side" id="side">
+    <div class="logo">🐴</div>
+    <span class="ic cur"><svg class="i"><use href="#i-brush"/></svg></span>
+    <span class="ic"><svg class="i"><use href="#i-folder"/></svg></span>
+    <span class="ic"><svg class="i"><use href="#i-grid"/></svg></span>
+    <span class="ic"><svg class="i"><use href="#i-pen"/></svg></span>
+    <span class="ic"><svg class="i"><use href="#i-wrench"/></svg></span>
+    <span class="ic"><svg class="i"><use href="#i-bot"/></svg></span>
+    <div class="avatar" id="avatar"></div>
+  </div>
   <div class="main">
-    <div class="tabs" id="tabs"><span class="cur">⌂ 主页</span><span>▭ 项目库</span><span>▦ 画布空间</span></div>
+    <div class="nav" id="nav">
+      <span class="cur" id="n-home"><svg class="i"><use href="#i-home"/></svg>主页</span>
+      <span id="n-lib"><svg class="i"><use href="#i-folder"/></svg>项目库</span>
+      <span id="n-space"><svg class="i"><use href="#i-grid"/></svg>画布空间</span>
+    </div>
     <div class="hero">
-      <div class="hello"><div class="orb"></div>今天要做点什么？</div>
+      <div class="hello" id="hello"><span class="orb"></span>今天要做点什么？</div>
       <div class="box" id="box"><div id="prompt"></div>
-        <div class="tools"><span id="plus">＋</span><span id="model">◎ GPT-5.5 ⌄</span><span id="think">关闭思考 ⌄</span>
-          <span class="r"><span>✧</span><span>🎙</span><span id="send">↑</span></span></div>
+        <div class="bar">
+          <span id="plus"><svg class="i"><use href="#i-plus"/></svg></span>
+          <span id="model">◎ GPT-5.5 <svg class="i"><use href="#i-down"/></svg></span>
+          <span id="think">关闭思考 <svg class="i"><use href="#i-down"/></svg></span>
+          <span class="r"><span id="enh"><svg class="i"><use href="#i-spark"/></svg></span><span id="mic"><svg class="i"><use href="#i-mic"/></svg></span><span id="send"><svg class="i"><use href="#i-up"/></svg></span></span>
+        </div>
       </div>
-      <div class="modes" id="modes"><span class="cur">对话</span><span>Harness</span><span>回读50条 ⌄</span><span class="r">Runware</span></div>
-      <div class="cards" id="cards"><div class="card" id="new"><b>＋</b>新建项目</div><div class="empty">还没有项目，新建一个开始吧</div></div>
+      <div class="dock" id="dock"><span class="cur" id="m-chat">对话</span><span id="m-harness">Harness</span><span id="m-hist">回读50条 ⌄</span><span class="r" id="m-plat">Runware</span></div>
+      <div class="recent"><div class="card-new" id="new"><span class="plus"><svg class="i"><use href="#i-plus"/></svg></span>新建项目</div></div>
+      <div class="allp">所有项目 →</div>
     </div>
   </div>
 
-  <div class="help" id="help" hidden>
-    <nav><span>全局</span><span>画布</span><span>文件</span><span class="cur">工具</span></nav>
-    <div class="row"><div>文本<small>在画布上拖出一块区域后直接输入</small></div><em>左侧栏</em></div>
-    <div class="row"><div>绘画 / 视频<small>写提示词后 Ctrl+Enter 生成。从节点「+」拖线接入参考图</small></div><em>双击画布</em></div>
-    <div class="row"><div>连接<small>拖到目标松手。Shift 多选后，从「+」一次连出多条</small></div><em>节点「+」</em></div>
-    <div class="row"><div>画布导航<small>小地图看全局位置，点击可跳转</small></div><em>T</em></div>
+  <div class="pop" id="models" hidden><div class="cur">GPT-5.5 <small>默认</small></div><div>Claude Sonnet</div><div id="mo-g">Gemini 2.5 Pro</div><div>DeepSeek V3</div></div>
+  <div class="pop" id="effort" hidden><div>关闭思考</div><div id="ef-h">深度思考</div></div>
+  <div class="pop" id="profile" hidden><div>个人记忆 · 知序</div><div id="p-set">设置</div><div>检查更新</div></div>
+
+  <div class="shade" id="shade" hidden></div>
+  <div class="dlg" id="settings" hidden>
+    <header><span class="cur">模型服务</span><span>外观</span><span>快捷键</span><span>关于</span></header>
+    <div class="body">
+      <div class="field">API 地址<small>填写你使用的模型服务平台地址</small><div class="in" id="url"></div></div>
+      <div class="field">API Key<small>只保存在本机，不会上传</small><div class="in" id="key"></div></div>
+      <div class="toggle-row">深色主题<span class="sw on"></span></div>
+      <div class="toggle-row">生成完成时提示<span class="sw" id="sw-n"></span></div>
+      <span class="btn" id="save">保存</span>
+    </div>
   </div>
 
-  <div class="menu" id="menu" hidden><div>个人记忆</div><div id="m-set">设置</div><div>关于</div></div>
-  <div class="settings" id="settings" hidden>
-    <h3>设置</h3>
-    <div class="field">模型服务 API Key<div class="in" id="key"></div></div>
-    <div class="field">默认对话模型<div class="in">GPT-5.5</div></div>
-    <span class="btn" id="save">保存</span>
+  <div class="dlg help" id="help" hidden>
+    <header><span>全局</span><span>画布</span><span>文件</span><span class="cur">工具</span><span>教程</span></header>
+    <div class="cols">
+      <div>
+        <div class="row">文本<em>左侧栏</em><small>在画布上拖出一块区域后直接输入</small></div>
+        <div class="row">上传<em>双击画布</em><small>放入图片、视频或音频</small></div>
+        <div class="row" id="h-draw">绘画 / 视频<em>双击画布</em><small>写提示词后 Ctrl+Enter 生成。从节点「+」拖线接入参考图</small></div>
+        <div class="row">连接<em>节点「+」</em><small>拖到目标松手。Shift 多选后，从「+」一次连出多条</small></div>
+      </div>
+      <div>
+        <div class="row">剪辑时间线<em>更多工具</em><small>空格播放。B 或 C 在播放头切开</small></div>
+        <div class="row">节点对齐<em>`</em><small>选中至少两个节点后，做对齐或等间距</small></div>
+        <div class="row">画布导航<em>T</em><small>小地图看全局位置，点击可跳转</small></div>
+        <div class="row">提示词 @<em>@</em><small>在绘画或视频提示词里提及素材</small></div>
+      </div>
+    </div>
+    <footer>@桥豆麻衣酱 | 全平台同名 · 禁商用 · 画布免费</footer>
   </div>
-
-  <!-- 吉祥物：Claude 风橙色小机器人，戴小马耳朵和鬃毛 -->
-  <svg id="mascot" viewBox="0 0 160 170">
-    <g class="body">
-      <path d="M48 36 L42 8 L62 26 Z" fill="#a0522d"/><path d="M112 36 L118 8 L98 26 Z" fill="#a0522d"/>
-      <path d="M56 22 q24 -18 48 0 q-6 10 -24 10 q-18 0 -24 -10z" fill="#5a2e16"/>
-      <rect x="32" y="26" width="96" height="78" rx="26" fill="#d97757"/>
-      <ellipse cx="96" cy="60" rx="16" ry="12" fill="#f4e6d8" opacity=".9"/>
-      <rect x="46" y="44" width="68" height="40" rx="16" fill="#1b1410"/>
-      <rect class="eye" x="60" y="54" width="9" height="13" rx="4.5" fill="#ffd9b8"/>
-      <rect class="eye" x="91" y="54" width="9" height="13" rx="4.5" fill="#ffd9b8"/>
-      <rect class="mouth" x="74" y="72" width="12" height="3" rx="1.5" fill="#ffd9b8"/>
-      <rect x="44" y="108" width="72" height="44" rx="18" fill="#c4683f"/>
-      <path d="M44 120 q-16 4 -18 22" stroke="#c4683f" stroke-width="10" stroke-linecap="round" fill="none"/>
-      <path class="arm-r" d="M116 120 q16 4 18 22" stroke="#c4683f" stroke-width="10" stroke-linecap="round" fill="none"/>
-      <circle cx="80" cy="130" r="6" fill="#f4e6d8"/>
-    </g>
-  </svg>
 
   <div id="cursor"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 2l7 19 2.6-7.6L20 11z" fill="#fff" stroke="#000" stroke-width="1.2"/></svg></div>
+ </div>
+
+  <!-- Clawd：Claude Code 默认的像素小机器人（方块身体、两只黑眼、四条小腿），戴一顶牛马帽：马耳朵 + 牛角 + 斑点 -->
+  <div id="mascot" data-mood="">
+    <div class="flipper"><div class="bob">
+      <svg viewBox="0 0 130 150" width="130" height="150" shape-rendering="crispEdges">
+        <g class="hat">
+          <!-- 牛角 -->
+          <rect x="22" y="22" width="8" height="8" fill="#f3e6cf"/><rect x="16" y="14" width="8" height="10" fill="#f3e6cf"/>
+          <rect x="100" y="22" width="8" height="8" fill="#f3e6cf"/><rect x="106" y="14" width="8" height="10" fill="#f3e6cf"/>
+          <!-- 马耳朵 -->
+          <rect x="38" y="6" width="10" height="20" fill="#8b4a25"/><rect x="41" y="10" width="4" height="12" fill="#e8a27a"/>
+          <rect x="82" y="6" width="10" height="20" fill="#8b4a25"/><rect x="85" y="10" width="4" height="12" fill="#e8a27a"/>
+          <!-- 帽子本体：白底牛斑 -->
+          <rect x="28" y="24" width="74" height="18" fill="#fbf7ef"/>
+          <rect x="34" y="26" width="16" height="8" fill="#3a2418"/><rect x="72" y="28" width="14" height="10" fill="#3a2418"/><rect x="58" y="24" width="8" height="6" fill="#3a2418"/>
+          <!-- 鬃毛 -->
+          <rect x="52" y="16" width="26" height="10" fill="#5a2e16"/><rect x="58" y="10" width="12" height="8" fill="#5a2e16"/>
+          <!-- 帽檐 -->
+          <rect x="22" y="40" width="86" height="6" fill="#e9dfcd"/>
+        </g>
+        <!-- 身体（Claude 橙） -->
+        <rect x="26" y="46" width="78" height="58" fill="#d97757"/>
+        <rect x="26" y="46" width="78" height="6" fill="#e48a6b"/>
+        <!-- 手臂 -->
+        <rect class="arm-l" x="12" y="68" width="14" height="12" fill="#d97757"/>
+        <rect class="arm-r" x="104" y="68" width="14" height="12" fill="#d97757"/>
+        <!-- 眼睛 -->
+        <rect class="eye" x="44" y="62" width="10" height="14" fill="#1a1a1a"/>
+        <rect class="eye" x="76" y="62" width="10" height="14" fill="#1a1a1a"/>
+        <!-- 腮红 -->
+        <rect x="34" y="82" width="8" height="4" fill="#f3a083" opacity=".8"/><rect x="88" y="82" width="8" height="4" fill="#f3a083" opacity=".8"/>
+        <!-- 腿 -->
+        <g><rect class="leg" x="32" y="104" width="8" height="16" fill="#d97757"/><rect class="leg" x="48" y="104" width="8" height="16" fill="#d97757"/>
+        <rect class="leg" x="74" y="104" width="8" height="16" fill="#d97757"/><rect class="leg" x="90" y="104" width="8" height="16" fill="#d97757"/></g>
+        <ellipse cx="65" cy="140" rx="34" ry="5" fill="#000" opacity=".35" shape-rendering="auto"/>
+      </svg>
+    </div></div>
+    <div class="bubble"></div>
+  </div>
+
   <div id="subtitle"></div>
-  <div id="overlay"><h2>Atelier 基础教程 · 主页与设置</h2><span class="btn">▶ 开始播放</span></div>
+  <div id="overlay"><h2>Atelier 基础教程 · 主页与设置</h2><span class="go">▶ 开始播放</span></div>
 </div></div>
 <div class="ctrl"><button id="btn-play">▶ 播放</button><button id="btn-voice">旁白</button><button id="btn-sfx">音效</button><div id="steps"></div></div>
 
 <script src="../shared/player.js"></script>
 <script>
-const show = (id, on) => { document.getElementById(id).hidden = !on; if (on) document.getElementById(id).classList.add('fade-in'); };
+const $ = (s) => document.querySelector(s);
+const show = (id, on) => { const e = document.getElementById(id); e.hidden = !on; if (on) { e.classList.remove('fade-in'); void e.offsetWidth; e.classList.add('fade-in'); } };
+const reset = (a) => {
+  ['models','effort','profile','settings','help','shade'].forEach((id) => show(id, false));
+  $('#prompt').textContent = ''; $('#prompt').classList.remove('typing'); $('#send').classList.remove('ready'); $('#box').classList.remove('focus');
+  $('#model').innerHTML = '◎ GPT-5.5 <svg class="i"><use href="#i-down"/></svg>';
+  $('#think').innerHTML = '关闭思考 <svg class="i"><use href="#i-down"/></svg>';
+  $('#m-chat').classList.add('cur'); $('#m-harness').classList.remove('cur');
+  $('#url').textContent = ''; $('#key').textContent = ''; $('#sw-n').classList.remove('on'); $('#save').classList.remove('ok'); $('#save').textContent = '保存';
+  a.focus(null);
+};
+
 Player.init([
-  { title:'欢迎', mood:'happy', say:'你好，我是 Atelier 的小助手。这节课带你认识主页，并完成第一次设置。',
-    act: async (a) => { a.focus(null); } },
-  { title:'顶部导航', mood:'point', say:'顶部有三个入口：主页、项目库和画布空间。项目库管理你所有的作品。',
-    act: async (a) => { await a.move('#tabs'); a.focus('#tabs'); } },
-  { title:'对话框', mood:'talk', say:'中间是对话框。直接写下你的想法，小助手会帮你规划内容。',
-    act: async (a) => { a.focus('#box'); await a.click('#prompt'); await a.type('#prompt', '帮我做一组咖啡店海报'); } },
-  { title:'模型与思考', mood:'point', say:'左下角可以切换对话模型，旁边的开关控制是否开启深度思考。',
-    act: async (a) => { a.focus('#model'); await a.click('#model'); await a.sleep(600); a.focus('#think'); await a.click('#think'); } },
-  { title:'模式', mood:'talk', say:'下面一行选择工作模式，对话适合聊想法，Harness 适合让它自动执行任务。',
-    act: async (a) => { a.focus('#modes'); await a.move('#modes'); } },
-  { title:'新建项目', mood:'point', say:'第一次使用还没有项目，点击新建项目，就能进入一张空白画布。',
-    act: async (a) => { a.focus('#new'); await a.click('#new'); a.sfx.whoosh(); } },
-  { title:'设置', mood:'talk', say:'开始创作前，先点左下角头像，打开设置，填入你的模型服务密钥，然后保存。',
-    act: async (a) => { a.focus(null); await a.click('#avatar'); show('menu', true); a.sfx.pop(); await a.sleep(400);
-      await a.click('#m-set'); show('menu', false); show('settings', true); a.sfx.whoosh();
-      await a.click('#key'); await a.type('#key', 'sk-••••••••••••', 60); await a.click('#save'); a.sfx.ding();
-      await a.sleep(500); show('settings', false); } },
-  { title:'帮助', mood:'point', say:'忘了快捷键也没关系，点击标题栏的帮助，所有操作都在这里。',
-    act: async (a) => { await a.click('#t-help'); show('help', true); a.sfx.pop(); await a.sleep(2200); show('help', false); } },
-  { title:'结束', mood:'happy', say:'好了，主页你已经熟悉了。下一课，我们一起在画布上生成第一张图。',
-    act: async (a) => { a.focus(null); } },
-]);
-document.getElementById('overlay').onclick = () => Player.play(Player.idx >= Player.scenes.length ? 0 : Player.idx);
+  { title:'欢迎', mood:'happy', say:'嗨，我是 Clawd，今天戴着牛马帽陪你打工。这节课带你认识 Atelier 的主页，并完成第一次设置。',
+    act: async (a) => {
+      await a.cam(null, 1, 10);
+      await a.walk(560, 300, 1200); a.say('哞～嘶～'); await a.sleep(500);
+      await a.hop([1080, 420]); await a.hop([620, 330]);
+    } },
+  { title:'侧栏', mood:'point', say:'左边是侧栏，从上到下是画布、项目、画布空间、写作、工具箱和机器人，常用功能一点就到。',
+    act: async (a) => {
+      await a.cam('#side', 1.7, 1200, 260, 0);
+      await a.hop([560, 300]); a.focus('#side');
+      for (const ic of document.querySelectorAll('.side .ic')) { await a.move(ic, 260); a.sfx.key(); }
+    } },
+  { title:'顶部导航', mood:'point', say:'顶部有三个入口：主页、项目库和画布空间。项目库管理你所有的作品，画布空间用来浏览画布。',
+    act: async (a) => {
+      await a.cam('#nav', 2, 1200, 0, 40); a.focus('#nav'); await a.hop([820, 330]);
+      await a.click('#n-lib'); await a.sleep(300); await a.click('#n-space'); await a.sleep(300); await a.click('#n-home');
+    } },
+  { title:'对话框', mood:'talk', say:'中间是对话框。写下你的想法，比如做一组咖啡店海报，按回车就能发送。',
+    act: async (a) => {
+      a.focus(null); await a.cam('#box', 1.55, 1300, 0, -20); await a.hop([1060, 250]);
+      await a.click('#prompt'); $('#box').classList.add('focus'); $('#prompt').classList.add('typing');
+      await a.type('#prompt', '帮我做一组咖啡店的开业海报', 90); $('#prompt').classList.remove('typing');
+      $('#send').classList.add('ready'); a.focus('#send'); a.say('写好啦！');
+    } },
+  { title:'模型与思考', mood:'think', say:'左下角可以切换对话模型。旁边的思考开关，打开以后回答更深入，但会慢一点。',
+    act: async (a) => {
+      a.focus(null); await a.cam('#model', 2.3, 1100, 80, -60); await a.hop([180, 260]);
+      await a.click('#model'); show('models', true); a.sfx.pop(); await a.sleep(500);
+      await a.click('#mo-g'); show('models', false); $('#model').innerHTML = '◎ Gemini 2.5 Pro <svg class="i"><use href="#i-down"/></svg>';
+      await a.sleep(300); await a.click('#think'); show('effort', true); a.sfx.pop(); await a.sleep(400);
+      await a.click('#ef-h'); show('effort', false); $('#think').innerHTML = '深度思考 <svg class="i"><use href="#i-down"/></svg>'; a.focus('#think');
+    } },
+  { title:'工作模式', mood:'point', say:'下面这一行选择工作模式。对话适合聊想法，Harness 会在工作区里自动执行任务，回读条数决定它记住多少上下文。',
+    act: async (a) => {
+      a.focus(null); await a.cam('#dock', 1.9, 1200, 0, -40); await a.hop([1000, 300]);
+      await a.click('#m-harness'); $('#m-chat').classList.remove('cur'); $('#m-harness').classList.add('cur'); await a.sleep(500);
+      await a.click('#m-chat'); $('#m-harness').classList.remove('cur'); $('#m-chat').classList.add('cur');
+      a.focus('#m-hist'); await a.move('#m-hist');
+    } },
+  { title:'新建项目', mood:'happy', say:'第一次使用还没有项目。点击新建项目，就会打开一张空白画布，从这里开始创作。',
+    act: async (a) => {
+      a.focus(null); await a.cam('#new', 2.4, 1200, 160, 0); await a.hop([380, 200]);
+      a.focus('#new'); await a.click('#new'); a.say('冲！'); await a.cam('#new', 3.2, 600); await a.cam(null, 1, 900);
+    } },
+  { title:'设置', mood:'talk', say:'开始之前先填好模型服务。点左下角头像，打开设置，填入 API 地址和密钥，再点保存就行。密钥只保存在你的电脑上。',
+    act: async (a) => {
+      a.focus(null); await a.cam('#avatar', 2, 1100, 300, -160); await a.hop([300, 360]);
+      await a.click('#avatar'); show('profile', true); a.sfx.pop(); await a.sleep(400);
+      await a.click('#p-set'); show('profile', false);
+      await a.cam(null, 1, 900); show('shade', true); show('settings', true);
+      await a.cam('#settings', 1.35, 900); await a.hop([1080, 220]);
+      await a.click('#url'); $('#url').classList.add('on'); await a.type('#url', 'https://api.example.com/v1', 40); $('#url').classList.remove('on');
+      await a.click('#key'); $('#key').classList.add('on'); await a.type('#key', 'sk-••••••••••••••••', 45); $('#key').classList.remove('on');
+      await a.click('#sw-n'); $('#sw-n').classList.add('on');
+      await a.click('#save'); $('#save').classList.add('ok'); $('#save').textContent = '已保存 ✓'; a.sfx.ding(); a.say('搞定！');
+      await a.sleep(700); show('settings', false); show('shade', false);
+    } },
+  { title:'帮助', mood:'point', say:'忘了快捷键也没关系。点击标题栏的帮助，全局、画布、文件和工具的操作都在这里，还有更多教程。',
+    act: async (a) => {
+      await a.cam('#t-help', 2.6, 1100, 260, 160); await a.hop([620, 120]);
+      await a.click('#t-help'); await a.cam(null, 1, 800); show('shade', true); show('help', true); a.sfx.pop();
+      await a.cam('#h-draw', 1.6, 1000, 120, 0); a.focus('#h-draw'); await a.hop([1100, 330]);
+      await a.sleep(1200); a.focus(null); show('help', false); show('shade', false);
+    } },
+  { title:'结束', mood:'happy', say:'好啦，主页你已经熟悉了。下一课，我们一起在画布上生成第一张图，牛马们，下课！',
+    act: async (a) => {
+      await a.cam(null, 1, 1200); await a.hop([560, 300]); a.say('下课～'); await a.hop([620, 280]); await a.hop([560, 300]);
+    } },
+], reset);
 </script>
 </body>
 </html>
