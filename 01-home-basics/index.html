@@ -271,7 +271,7 @@ const reset = (a) => {
   $('#model').innerHTML = '◎ GPT-5.5 <svg class="i"><use href="#i-down"/></svg>';
   $('#think').innerHTML = '关闭思考 <svg class="i"><use href="#i-down"/></svg>';
   $('#m-chat').classList.add('cur'); $('#m-harness').classList.remove('cur');
-  $('#url').textContent = ''; $('#key').textContent = ''; $('#sw-n').classList.remove('on'); $('#save').classList.remove('ok'); $('#save').textContent = '保存';
+  $('#url').textContent = ''; $('#key').textContent = ''; $('#save').classList.remove('ok'); $('#save').textContent = '保存Key';
   a.focus(null);
 };
 
@@ -329,7 +329,6 @@ Player.init([
       await a.cam('#settings', 1.35, 900); await a.hop([1080, 220]);
       await a.click('#url'); $('#url').classList.add('on'); await a.type('#url', 'https://api.example.com/v1', 40); $('#url').classList.remove('on');
       await a.click('#key'); $('#key').classList.add('on'); await a.type('#key', 'sk-••••••••••••••••', 45); $('#key').classList.remove('on');
-      await a.click('#sw-n'); $('#sw-n').classList.add('on');
       await a.click('#save'); $('#save').classList.add('ok'); $('#save').textContent = '已保存 ✓'; a.sfx.ding(); a.say('搞定！');
       await a.sleep(700); show('settings', false); show('shade', false);
     } },
