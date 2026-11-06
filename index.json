@@ -24,6 +24,12 @@
       "title": "平台 Key 同步",
       "path": "04-platform-keys/index.html",
       "minutes": 2
+    },
+    {
+      "id": "05-canvas-features",
+      "title": "画布功能设置",
+      "path": "05-canvas-features/index.html",
+      "minutes": 3
     }
   ]
 }
